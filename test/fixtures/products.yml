@@ -1,13 +1,8 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  title: MyString
-  description: MyText
-  image_url: MyString
-  price: 9.99
-
-two:
-  title: MyString
-  description: MyText
-  image_url: MyString
-  price: 9.99
+elixir:
+  title: Programming Elixir
+  description:
+    Elixir is a dynamic ruby like language built on top of Erlang.
+  price: 49.20
+  image_url: elixir.jpg
