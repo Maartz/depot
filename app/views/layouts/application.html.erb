@@ -19,6 +19,7 @@
 
     <section class="flex">
       <nav class="bg-red-900 p-6">
+        <%= render partial: 'layouts/cart', locals: {cart: @cart} %>
         <ul class="text-white leading-8">
           <li><a href="/">Home</a></li>
           <li><a href="/questions">FAQ</a></li>
