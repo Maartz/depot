@@ -1,47 +1,42 @@
-require "application_system_test_case"
+require 'application_system_test_case'
 
 class OrdersTest < ApplicationSystemTestCase
   setup do
     @order = orders(:one)
   end
 
-  test "visiting the index" do
-    visit orders_url
-    assert_selector "h1", text: "Orders"
-  end
+  test 'check dynamic fields' do
+    visit store_index_url
 
-  test "should create order" do
-    visit orders_url
-    click_on "New order"
+    click_on 'Add to Cart', match: :first
 
-    fill_in "Address", with: @order.address
-    fill_in "Email", with: @order.email
-    fill_in "Name", with: @order.name
-    fill_in "Pay type", with: @order.pay_type
-    click_on "Create Order"
+    click_on 'Checkout'
 
-    assert_text "Order was successfully created"
-    click_on "Back"
-  end
+    assert has_no_field? 'Routing number'
+    assert has_no_field? 'Account number'
+    assert has_no_field? 'Credit card number'
+    assert has_no_field? 'Expiration Date'
+    assert has_no_field? 'Po Number'
 
-  test "should update Order" do
-    visit order_url(@order)
-    click_on "Edit this order", match: :first
+    select 'Check', from: 'Pay type'
+    assert has_field? 'Routing number'
+    assert has_field? 'Account number'
+    assert has_no_field? 'Credit card number'
+    assert has_no_field? 'Expiration Date'
+    assert has_no_field? 'Po Number'
 
-    fill_in "Address", with: @order.address
-    fill_in "Email", with: @order.email
-    fill_in "Name", with: @order.name
-    fill_in "Pay type", with: @order.pay_type
-    click_on "Update Order"
+    select 'Credit card', from: 'Pay type'
+    assert has_no_field? 'Routing number'
+    assert has_no_field? 'Account number'
+    assert has_field? 'Credit card number'
+    assert has_field? 'Expiration Date'
+    assert has_no_field? 'Po Number'
 
-    assert_text "Order was successfully updated"
-    click_on "Back"
-  end
-
-  test "should destroy Order" do
-    visit order_url(@order)
-    click_on "Destroy this order", match: :first
-
-    assert_text "Order was successfully destroyed"
+    select 'Purchase order', from: 'Pay type'
+    assert has_no_field? 'Routing number'
+    assert has_no_field? 'Account number'
+    assert has_no_field? 'Credit card number'
+    assert has_no_field? 'Expiration Date'
+    assert has_field? 'Po Number'
   end
 end
